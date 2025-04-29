@@ -1,26 +1,38 @@
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
+name: Auto-Update IPA from Nightly
 
-  - name: Download latest IPA zip
-    run: |
-      curl -L -o sulfur.zip https://nightly.link/cranci1/Sora/workflows/build/dev/Sulfur-IPA.zip
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Every 10 minutes
+  workflow_dispatch:        # Allow manual trigger from Actions tab
 
-  - name: Unzip the IPA
-    run: |
-      rm -rf tmp-ipa
-      mkdir -p tmp-ipa
-      unzip -o sulfur.zip -d tmp-ipa
-      mkdir -p public-build
-      cp -f tmp-ipa/Sulfur.ipa public-build/Sulfur.ipa
+jobs:
+  update:
+    name: Download and Update IPA
+    runs-on: ubuntu-latest
 
-  - name: Set Git user
-    run: |
-      git config user.name "auto-bot"
-      git config user.email "bot@example.com"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Commit & push if changed
-    run: |
-      git add -f public-build/Sulfur.ipa
-      git diff --quiet && git diff --staged --quiet || git commit -m "Auto: Update IPA [skip ci]"
-      git push
+      - name: Download latest IPA zip
+        run: |
+          curl -L -o sulfur.zip https://nightly.link/cranci1/Sora/workflows/build/dev/Sulfur-IPA.zip
+
+      - name: Unzip the IPA
+        run: |
+          rm -rf tmp-ipa
+          mkdir -p tmp-ipa
+          unzip -o sulfur.zip -d tmp-ipa
+          mkdir -p public-build
+          cp -f tmp-ipa/Sulfur.ipa public-build/Sulfur.ipa
+
+      - name: Set Git user
+        run: |
+          git config user.name "auto-bot"
+          git config user.email "bot@example.com"
+
+      - name: Commit & push if changed
+        run: |
+          git add -f public-build/Sulfur.ipa
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto: Update IPA [skip ci]"
+          git push
