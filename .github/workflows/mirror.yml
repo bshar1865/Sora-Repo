@@ -1,0 +1,26 @@
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Download latest IPA zip
+    run: |
+      curl -L -o sulfur.zip https://nightly.link/cranci1/Sora/workflows/build/dev/Sulfur-IPA.zip
+
+  - name: Unzip the IPA
+    run: |
+      rm -rf tmp-ipa
+      mkdir -p tmp-ipa
+      unzip -o sulfur.zip -d tmp-ipa
+      mkdir -p public-build
+      cp -f tmp-ipa/Sulfur.ipa public-build/Sulfur.ipa
+
+  - name: Set Git user
+    run: |
+      git config user.name "auto-bot"
+      git config user.email "bot@example.com"
+
+  - name: Commit & push if changed
+    run: |
+      git add -f public-build/Sulfur.ipa
+      git diff --quiet && git diff --staged --quiet || git commit -m "Auto: Update IPA [skip ci]"
+      git push
