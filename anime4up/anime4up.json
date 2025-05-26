@@ -1,0 +1,18 @@
+{
+    "sourceName": "Anime4up",
+    "iconUrl": "https://anime4up.rest/wp-content/themes/anime4up/img/favicon.ico",
+    "author": {
+        "name": "bshar1865",
+        "icon": "https://avatars.githubusercontent.com/u/98615778?v=4"
+    },
+    "version": "1.0.0",
+    "language": "Arabic (SUB)",
+    "streamType": "HLS",
+    "quality": "1080p",
+    "baseUrl": "https://anime4up.rest/",
+    "searchBaseUrl": "https://anime4up.rest/?search_param=animes&s=%s",
+    "scriptUrl": "https://raw.githubusercontent.com/bshar1865/Sora-Repo/main/anime4up.js",
+    "asyncJS": true,
+    "softsub": true,
+    "type": "anime"
+}
