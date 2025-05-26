@@ -1,17 +1,18 @@
 async function searchResults(keyword) {
     try {
-        const encodedKeyword = keyword.trim().split(/\s+/).join('+'); // Replace spaces with +
+        const encodedKeyword = encodeURIComponent(keyword.trim());
         const res = await fetch(`https://anime4up.rest/?search_param=animes&s=${encodedKeyword}`);
         const html = await res.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
         const cards = [...doc.querySelectorAll('.anime-card')];
-        const results = cards.map(card => ({
-            title: card.querySelector('.anime-title')?.textContent.trim(),
-            image: card.querySelector('img')?.src,
-            href: card.querySelector('a')?.href
-        }));
+        const results = cards.map(card => {
+            const title = card.querySelector('.anime-title')?.textContent.trim();
+            const image = card.querySelector('img')?.src;
+            const href = card.querySelector('a')?.href;
+            return { title, image, href };
+        });
 
         return JSON.stringify(results);
     } catch (err) {
