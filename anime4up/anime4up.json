@@ -11,8 +11,8 @@
     "quality": "1080p",
     "baseUrl": "https://anime4up.rest/",
     "searchBaseUrl": "https://anime4up.rest/?search_param=animes&s=%s",
-    "scriptUrl": "https://raw.githubusercontent.com/bshar1865/Sora-Repo/main/anime4up.js",
+    "scriptUrl": "https://raw.githubusercontent.com/bshar1865/Sora-Repo/refs/heads/main/anime4up/anime4up.js",
     "asyncJS": true,
-    "softsub": true,
+    "softsub": false,
     "type": "anime"
 }
